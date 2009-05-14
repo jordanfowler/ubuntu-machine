@@ -23,7 +23,7 @@ namespace :machine do
 
   task :configure do
     ssh.setup
-    iptables.configure
+    firewall.setup
     aptitude.setup
   end
 
