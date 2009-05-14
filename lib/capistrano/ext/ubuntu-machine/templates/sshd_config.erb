@@ -2,7 +2,7 @@
 # See the sshd(8) manpage for details
 
 # What ports, IPs and protocols we listen for
-Port <%= ssh_options[:port] %>
+Port <%= @new_ssh_port || ssh_options[:port] || 22 %>
 # Use these options to restrict which interfaces/protocols sshd will bind to
 #ListenAddress ::
 #ListenAddress 0.0.0.0
@@ -23,13 +23,12 @@ LogLevel INFO
 
 # Authentication:
 LoginGraceTime 120
-PermitRootLogin yes # allow it to enable OVH to connect to your server
+PermitRootLogin no
 StrictModes yes
 
 RSAAuthentication yes
 PubkeyAuthentication yes
-AuthorizedKeysFile	.ssh/authorized_keys2
-UsePam yes
+#AuthorizedKeysFile	%h/.ssh/authorized_keys
 
 # Don't read the user's ~/.rhosts and ~/.shosts files
 IgnoreRhosts yes
@@ -48,7 +47,7 @@ PermitEmptyPasswords no
 ChallengeResponseAuthentication no
 
 # Change to no to disable tunnelled clear text passwords
-PasswordAuthentication no
+#PasswordAuthentication yes
 
 # Kerberos options
 #KerberosAuthentication no
@@ -57,7 +56,7 @@ PasswordAuthentication no
 #KerberosTicketCleanup yes
 
 # GSSAPI options
-GSSAPIAuthentication no
+#GSSAPIAuthentication no
 #GSSAPICleanupCredentials yes
 
 X11Forwarding no
@@ -74,6 +73,8 @@ KeepAlive yes
 AcceptEnv LANG LC_*
 
 Subsystem sftp /usr/lib/openssh/sftp-server
+
+UsePam yes
 
 UseDNS no
 
