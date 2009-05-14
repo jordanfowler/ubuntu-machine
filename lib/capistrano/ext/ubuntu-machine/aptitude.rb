@@ -1,5 +1,5 @@
 namespace :aptitude do
-  
+
   desc <<-DESC
     Updates your software package list. This will not "upgrade" any of your \
     installed software.
@@ -32,16 +32,16 @@ namespace :aptitude do
     http://articles.slicehost.com/2007/11/6/ubuntu-gutsy-setup-page-2
   DESC
   task :safe_upgrade, :roles => :app do
-    
+
     # to prevent interactive mode to block the install script
     sudo 'aptitude hold console-setup -y'
-    
+
     # By default, OVH replace the original /etc/issue. The safe_upgrade will then ask \
     # if it must overwrite this file, since it has been modified by OVH. \
     # data =~ /^\*\*\*\sissue/ looks for the interactive prompt to enable you to answer
-    sudo_and_watch_prompt("aptitude safe-upgrade -y", /^\*\*\*\sissue/)    
+    sudo_and_watch_prompt("aptitude safe-upgrade -y", /^\*\*\*\sissue/)
   end
-  
+
   desc <<-DESC
     Upgrades your installed software packages.
 
@@ -77,7 +77,7 @@ namespace :aptitude do
     package = Capistrano::CLI.ui.ask("Which package should we uninstall: ")
     sudo "apt-get remove #{package}"
   end
-  
+
   desc <<-DESC
     Updates software packages and creates "a solid base for the 'meat' of the \
     server". This task should be run only once when you are first setting up your \
@@ -92,5 +92,11 @@ namespace :aptitude do
     full_upgrade
     sudo "apt-get install -y build-essential"
   end
-    
+
+  desc "Search for a software package `apt-cache search <package>`."
+  task :search, :roles => :app do
+    package = Capistrano::CLI.ui.ask("Which package are you looking for: ")
+    run "apt-cache search #{package}"
+  end
+
 end
