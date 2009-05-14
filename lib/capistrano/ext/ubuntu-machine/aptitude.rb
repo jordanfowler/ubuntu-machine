@@ -1,4 +1,5 @@
 namespace :aptitude do
+  
   desc <<-DESC
     Updates your software package list. This will not "upgrade" any of your \
     installed software.
@@ -87,10 +88,9 @@ namespace :aptitude do
   DESC
   task :setup, :roles => :app do
     update
-    sudo "locale-gen en_GB.UTF-8"
-    sudo "/usr/sbin/update-locale LANG=en_GB.UTF-8"
     safe_upgrade
     full_upgrade
     sudo "apt-get install -y build-essential"
   end
+    
 end
