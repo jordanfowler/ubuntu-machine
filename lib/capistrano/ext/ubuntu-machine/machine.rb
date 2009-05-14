@@ -4,11 +4,11 @@ namespace :machine do
   task :initial_setup do
     set :user_to_create , user
     set :user, 'root'
-    
+
     run_and_watch_prompt("passwd", [/Enter new UNIX password/, /Retype new UNIX password:/])
-    
+
     run_and_watch_prompt("adduser #{user_to_create}", [/Enter new UNIX password/, /Retype new UNIX password:/, /\[\]\:/, /\[y\/N\]/i])
-    
+
     # force the non-interactive mode
     run "cat /etc/environment > ~/environment.tmp"
     run 'echo DEBIAN_FRONTEND=noninteractive >> ~/environment.tmp'
@@ -20,13 +20,13 @@ namespace :machine do
     run "echo 'AllowUsers #{user_to_create}' >> /etc/ssh/sshd_config"
     run "/etc/init.d/ssh reload"
   end
-  
+
   task :configure do
     ssh.setup
     iptables.configure
     aptitude.setup
   end
-  
+
   task :install_dev_tools do
     mysql.install
     apache.install
@@ -38,11 +38,12 @@ namespace :machine do
     git.install
     php.install
   end
-  
+
   desc = "Ask for a user and change his password"
   task :change_password do
-    user_to_update = Capistrano::CLI.ui.ask("Name of the user whose you want to update the password : ")
-    
+    user_to_update = Capistrano::CLI.ui.ask("Name of the user whose password you want to update : ")
+
     run_and_watch_prompt("passwd #{user_to_update}", [/Enter new UNIX password/, /Retype new UNIX password:/])
   end
+
 end

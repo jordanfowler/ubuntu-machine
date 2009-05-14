@@ -22,7 +22,6 @@ end
 
 # utility method called by sudo_and_watch_prompt and run_and_watch_prompt
 def watch_prompt(ch, stream, data, regex_to_watch)
-
   # the regex can be an array or a single regex -> we force it to always be an array with [*xx]
   if [*regex_to_watch].find { |regex| data =~ regex}
     # prompt, and then send the response to the remote process
@@ -32,5 +31,3 @@ def watch_prompt(ch, stream, data, regex_to_watch)
     Capistrano::Configuration.default_io_proc.call(ch, stream, data)
   end
 end
-
-
