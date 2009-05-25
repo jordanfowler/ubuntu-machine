@@ -108,7 +108,7 @@ namespace :apache do
   task :delete_website, :roles => :web do
     server_name = Capistrano::CLI.ui.ask("Server name you want to delete : ")
     sure = Capistrano::CLI.ui.ask("Are you sure you want to delete #{server_name} and all its files? (y/n) : ")
-    if sure=="y"
+    if (sure == "y")
       sudo "sudo a2dissite #{server_name}"
       sudo "rm /etc/apache2/sites-available/#{server_name}"
       sudo "rm -Rf /home/#{user}/websites/#{server_name}"
