@@ -66,7 +66,7 @@ namespace :aptitude do
   DESC
   task :install, :roles => :app do
     package = Capistrano::CLI.ui.ask("Which package should we install: ")
-    sudo "apt-get install #{package}"
+    sudo "apt-get install -y #{package}"
   end
 
   desc <<-DESC
@@ -90,7 +90,14 @@ namespace :aptitude do
     update
     safe_upgrade
     full_upgrade
+
     sudo "apt-get install -y build-essential"
+    sudo "apt-get install -y checkinstall"
+    sudo "apt-get install -y auto-apt"
+    sudo "auto-apt update"
+    sudo "auto-apt updatedb"
+    sudo "auto-apt update-local"
+    sudo "apt-get install -y rake"
   end
 
   desc "Search for a software package `apt-cache search <package>`."
