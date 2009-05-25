@@ -57,7 +57,7 @@ namespace :firewall do
 
   desc "Get the firewall status `ufw status`."
   task :status do
-    sudo "ufw status"
+      stream "#{sudo} ufw status"
   end
 
 end
